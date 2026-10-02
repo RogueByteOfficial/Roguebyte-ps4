@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en" manifest="cache.appcache">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sido RogueByte | PS4 Host</title>
+<style>
+  :root {
+    --bg-base: #0a080d;
+    --bg-grad: radial-gradient(circle at 50% 12%, #220d14 0%, #10080c 50%, #050406 100%);
+    --card-bg: rgba(20, 13, 17, 0.78);
+    --card-border: rgba(230, 57, 70, 0.3);
+    --card-glow: rgba(230, 57, 70, 0.25);
+    --primary-accent: #e63946;
+    --accent-glow: rgba(230, 57, 70, 0.5);
+    --accent-hover: #ff4d6d;
+    --title-grad: linear-gradient(135deg, #ffffff 15%, #ff758f 65%, #e63946 100%);
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    --det-bg: rgba(230, 57, 70, 0.1);
+    --det-border: rgba(230, 57, 70, 0.25);
+    --det-highlight: #ff758f;
+    --theme-ring: #e63946;
+  }
+  [data-theme="playstation"] {
+    --bg-base: #040814;
+    --bg-grad: radial-gradient(circle at 50% 12%, #0d1e38 0%, #070f1e 50%, #02050b 100%);
+    --card-bg: rgba(10, 20, 36, 0.78);
+    --card-border: rgba(0, 111, 205, 0.35);
+    --card-glow: rgba(0, 111, 205, 0.3);
+    --primary-accent: #0070d1;
+    --accent-glow: rgba(0, 112, 209, 0.55);
+    --accent-hover: #38bdf8;
+    --title-grad: linear-gradient(135deg, #ffffff 15%, #60a5fa 65%, #0070d1 100%);
+    --det-bg: rgba(0, 112, 209, 0.12);
+    --det-border: rgba(0, 112, 209, 0.28);
+    --det-highlight: #60a5fa;
+    --theme-ring: #0070d1;
+  }
+  [data-theme="emerald"] {
+    --bg-base: #03120e;
+    --bg-grad: radial-gradient(circle at 50% 12%, #0b291d 0%, #061611 50%, #020806 100%);
+    --card-bg: rgba(9, 28, 21, 0.8);
+    --card-border: rgba(16, 185, 129, 0.35);
+    --card-glow: rgba(16, 185, 129, 0.3);
+    --primary-accent: #10b981;
+    --accent-glow: rgba(16, 185, 129, 0.55);
+    --accent-hover: #34d399;
+    --title-grad: linear-gradient(135deg, #ffffff 15%, #6ee7b7 65%, #10b981 100%);
+    --det-bg: rgba(16, 185, 129, 0.12);
+    --det-border: rgba(16, 185, 129, 0.28);
+    --det-highlight: #34d399;
+    --theme-ring: #10b981;
+  }
+  [data-theme="gold"] {
+    --bg-base: #120e06;
+    --bg-grad: radial-gradient(circle at 50% 12%, #2d220a 0%, #171106 50%, #080602 100%);
+    --card-bg: rgba(28, 22, 12, 0.82);
+    --card-border: rgba(234, 179, 8, 0.35);
+    --card-glow: rgba(234, 179, 8, 0.3);
+    --primary-accent: #eab308;
+    --accent-glow: rgba(234, 179, 8, 0.55);
+    --accent-hover: #fde047;
+    --title-grad: linear-gradient(135deg, #ffffff 15%, #fde047 65%, #eab308 100%);
+    --det-bg: rgba(234, 179, 8, 0.12);
+    --det-border: rgba(234, 179, 8, 0.28);
+    --det-highlight: #fef08a;
+    --theme-ring: #eab308;
+  }
+  [data-theme="synthwave"] {
+    --bg-base: #11071c;
+    --bg-grad: radial-gradient(circle at 50% 12%, #2c103f 0%, #150821 50%, #07020d 100%);
+    --card-bg: rgba(28, 14, 43, 0.8);
+    --card-border: rgba(168, 85, 247, 0.35);
+    --card-glow: rgba(168, 85, 247, 0.3);
+    --primary-accent: #a855f7;
+    --accent-glow: rgba(168, 85, 247, 0.55);
+    --accent-hover: #c084fc;
+    --title-grad: linear-gradient(135deg, #ffffff 15%, #f472b6 65%, #a855f7 100%);
+    --det-bg: rgba(168, 85, 247, 0.12);
+    --det-border: rgba(168, 85, 247, 0.28);
+    --det-highlight: #f472b6;
+    --theme-ring: #a855f7;
+  }
+  [data-theme="titanium"] {
+    --bg-base: #0f1115;
+    --bg-grad: radial-gradient(circle at 50% 12%, #22262e 0%, #13151a 50%, #090a0c 100%);
+    --card-bg: rgba(24, 27, 34, 0.82);
+    --card-border: rgba(148, 163, 184, 0.3);
+    --card-glow: rgba(148, 163, 184, 0.25);
+    --primary-accent: #cbd5e1;
+    --accent-glow: rgba(203, 213, 225, 0.4);
+    --accent-hover: #ffffff;
+    --title-grad: linear-gradient(135deg, #ffffff 20%, #e2e8f0 65%, #94a3b8 100%);
+    --det-bg: rgba(148, 163, 184, 0.08);
+    --det-border: rgba(148, 163, 184, 0.2);
+    --det-highlight: #ffffff;
+    --theme-ring: #cbd5e1;
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0; min-height: 100vh;
+    background-color: var(--bg-base);
+    background-image: var(--bg-grad);
+    color: var(--text-primary);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+    transition: background 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow-x: hidden;
+    position: relative;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  /* Ambient glowing backdrop elements */
+  .ambient-glow {
+    position: fixed;
+    top: -150px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 400px;
+    background: radial-gradient(ellipse at center, var(--accent-glow) 0%, transparent 70%);
+    filter: blur(80px);
+    opacity: 0.35;
+    pointer-events: none;
+    z-index: 0;
+    transition: all 0.5s ease;
+  }
+  .ambient-grid {
+    position: fixed;
+    inset: 0;
+    background-image: 
+      linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Top Navigation Bar */
+  #brand {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 32px;
+    background: rgba(10, 10, 16, 0.85);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.7);
+    z-index: 10;
+    position: relative;
+  }
+  .brand-inner {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .logo-box {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #brand img {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid var(--primary-accent);
+    box-shadow: 0 0 16px var(--accent-glow);
+    transition: all 0.35s ease;
+  }
+  .brand-text {
+    display: flex;
+    flex-direction: column;
+  }
+  #brand b {
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    background: var(--title-grad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-transform: uppercase;
+  }
+  .brand-sub {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+  }
+
+  /* Themes bar */
+  .theme-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.04);
+    padding: 5px 12px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+  }
+  .theme-title {
+    font-size: 11px;
+    color: var(--text-secondary);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    margin-right: 4px;
+    text-transform: uppercase;
+  }
+  .theme-btn {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 0;
+    position: relative;
+    outline: none;
+  }
+  .theme-btn:hover {
+    transform: scale(1.2);
+    border-color: #ffffff;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  }
+  .theme-btn.active {
+    transform: scale(1.25);
+    border-color: #ffffff;
+    box-shadow: 0 0 12px var(--theme-ring);
+  }
+  .theme-btn.c-crimson { background: linear-gradient(135deg, #e63946, #b5179e); }
+  .theme-btn.c-ps { background: linear-gradient(135deg, #0070d1, #00d2ff); }
+  .theme-btn.c-emerald { background: linear-gradient(135deg, #10b981, #06b6d4); }
+  .theme-btn.c-gold { background: linear-gradient(135deg, #eab308, #f59e0b); }
+  .theme-btn.c-synthwave { background: linear-gradient(135deg, #a855f7, #ec4899); }
+  .theme-btn.c-titanium { background: linear-gradient(135deg, #cbd5e1, #64748b); }
+
+  /* Main Launcher Card */
+  #wrap {
+    width: 92%;
+    max-width: 600px;
+    margin: 50px auto 30px;
+    padding: 38px 32px 34px;
+    background: var(--card-bg);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid var(--card-border);
+    border-radius: 24px;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.75), 0 0 35px var(--card-glow);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  #wrap::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--title-grad);
+  }
+
+  /* Animated Status Ring / Icon */
+  .status-radar {
+    width: 58px;
+    height: 58px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--card-border);
+    position: relative;
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5), 0 0 20px var(--card-glow);
+  }
+  .status-radar::after {
+    content: "";
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    border: 2px solid var(--primary-accent);
+    opacity: 0.4;
+    animation: radarPulse 2s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+  }
+  @keyframes radarPulse {
+    0% { transform: scale(0.85); opacity: 0.8; }
+    100% { transform: scale(1.35); opacity: 0; }
+  }
+  .radar-dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--primary-accent);
+    box-shadow: 0 0 14px var(--accent-glow);
+    transition: background 0.3s ease;
+  }
+
+  #state {
+    font-size: 26px;
+    font-weight: 800;
+    margin: 0 0 16px;
+    letter-spacing: 0.04em;
+    color: #ffffff;
+    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.7);
+    line-height: 1.3;
+    transition: color 0.3s ease;
+  }
+  #det {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin: 0 0 18px;
+    padding: 10px 22px;
+    background: var(--det-bg);
+    border-radius: 30px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid var(--det-border);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: all 0.3s ease;
+  }
+  #det b {
+    color: var(--det-highlight);
+    font-weight: 700;
+  }
+
+  /* Cache Status & Progress */
+  #cache {
+    font-size: 13.5px;
+    color: #94a3b8;
+    margin: 8px 0 0;
+    min-height: 22px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    transition: color 0.3s ease;
+  }
+  #cache.cacheok {
+    color: #34d399;
+    font-weight: 600;
+    text-shadow: 0 0 10px rgba(52, 211, 153, 0.45);
+  }
+  .ok { color: #34d399 !important; text-shadow: 0 0 12px rgba(52, 211, 153, 0.5); }
+  .bad { color: #f87171 !important; text-shadow: 0 0 12px rgba(248, 113, 113, 0.5); }
+  .warn {
+    color: #fbbf24 !important;
+    text-shadow: 0 0 12px rgba(251, 191, 36, 0.5);
+    animation: pulseWarn 1.5s infinite alternate ease-in-out;
+  }
+  @keyframes pulseWarn {
+    0% { opacity: 0.8; transform: scale(0.99); }
+    100% { opacity: 1; transform: scale(1.01); }
+  }
+
+  /* Gamepad Controller Action Prompt */
+  .gamepad-hint {
+    margin-top: 26px;
+    padding: 12px 20px;
+    font-size: 13.5px;
+    color: #cbd5e1;
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .gamepad-hint:hover {
+    background: rgba(255, 255, 255, 0.07);
+    border-color: var(--primary-accent);
+    box-shadow: 0 0 20px var(--card-glow);
+    transform: translateY(-2px);
+  }
+  .gamepad-key {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--primary-accent);
+    font-weight: 800;
+    font-size: 13px;
+    border: 1.5px solid var(--primary-accent);
+    box-shadow: 0 0 10px var(--accent-glow);
+  }
+
+  /* Quick Information Pills */
+  .feature-badges {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+  .feat-badge {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 5px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.04em;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .feat-badge span {
+    color: var(--primary-accent);
+  }
+
+  /* Responsive Adjustments */
+  @media (max-width: 640px) {
+    #brand { padding: 12px 18px; flex-direction: column; gap: 12px; }
+    .brand-inner { width: 100%; justify-content: center; }
+    #wrap { width: 94%; margin: 30px auto 20px; padding: 28px 18px; }
+    #state { font-size: 22px; }
+    .theme-bar { margin-top: 5px; }
+  }
+</style>
+</head>
+<body>
+<div class="ambient-glow"></div>
+<div class="ambient-grid"></div>
+
+<div id="brand">
+  <div class="brand-inner">
+    <div class="logo-box">
+      <img src="logo_RogueByte.png" alt="RogueByte" width="36" height="36">
+    </div>
+    <div class="brand-text">
+      <b>Sido RogueByte</b>
+      <span class="brand-sub">PS4 Exploit Host &bull; FW 13.02 &ndash; 13.52</span>
+    </div>
+  </div>
+  <div class="theme-bar">
+    <span class="theme-title">Theme</span>
+    <button type="button" class="theme-btn c-crimson" data-t="" title="Crimson Rogue"></button>
+    <button type="button" class="theme-btn c-ps" data-t="playstation" title="PlayStation Blue"></button>
+    <button type="button" class="theme-btn c-emerald" data-t="emerald" title="Cyber Emerald"></button>
+    <button type="button" class="theme-btn c-gold" data-t="gold" title="Imperial Gold"></button>
+    <button type="button" class="theme-btn c-synthwave" data-t="synthwave" title="Synthwave Neon"></button>
+    <button type="button" class="theme-btn c-titanium" data-t="titanium" title="Titanium Slate"></button>
+  </div>
+</div>
+
+<div id="wrap">
+  <div class="status-radar">
+    <div class="radar-dot" id="radarDot"></div>
+  </div>
+  <div id="state">detecting firmware...</div>
+  <div id="det"></div>
+  <div id="cache"></div>
+
+  <div class="gamepad-hint" id="launchBtn">
+    <span class="gamepad-key">&#10005;</span>
+    <span>Press &#10005; or Click to Launch</span>
+  </div>
+
+  <div class="feature-badges">
+    <div class="feat-badge"><span>&#9679;</span> WebKit Exploit</div>
+    <div class="feat-badge"><span>&#9679;</span> Offline Cache Ready</div>
+    <div class="feat-badge"><span>&#9679;</span> GoldHEN Payload</div>
+  </div>
+</div>
+
+<script>
+(function () {
+    var stateEl = document.getElementById("state");
+    var detEl = document.getElementById("det");
+    var cacheEl = document.getElementById("cache");
+    var radarDot = document.getElementById("radarDot");
+
+    function setState(t, c) {
+        stateEl.textContent = t;
+        stateEl.className = c || "";
+        if (radarDot) {
+            if (c === "ok") radarDot.style.background = "#34d399";
+            else if (c === "bad") radarDot.style.background = "#f87171";
+            else if (c === "warn") radarDot.style.background = "#fbbf24";
+            else radarDot.style.background = "var(--primary-accent)";
+        }
+    }
+    function setCache(t, ok) {
+        cacheEl.textContent = t;
+        cacheEl.className = ok ? "cacheok" : "";
+    }
+    var params = new URLSearchParams(location.search);
+
+    // Firmwares this build has a MEASURED kernel table for. jb.js still runs its
+    // own kernel-table-present gate, so this is UX only -- an unlisted firmware
+    // can still be launched with a tap. KEEP IN SYNC with ps4_offsets.js: add a
+    // fwnum here in the SAME commit that fills that firmware's kernel RVAs.
+    // The PS4 reports its minor as two hex digits in the UA (13.52 -> minor 0x52).
+    var SUPPORTED = { 1302: 1, 1304: 1, 1350: 1, 1352: 1 }; // all measured on hardware
+
+    var key = null, fwnum = null;
+    var m = /PlayStation\s+4[\/ ](\d+)\.(\d+)/.exec(navigator.userAgent);
+    if (m) {
+        var ms = parseInt(m[2], 16).toString(16);
+        if (ms.length < 2) ms = "0" + ms;
+        key = m[1] + "." + ms;
+        fwnum = parseInt(m[1], 10) * 100 + parseInt(ms, 10);
+    }
+
+    var forced = params.get("force") === "1";
+    var supported = forced || (fwnum !== null && SUPPORTED[fwnum] === 1);
+    detEl.innerHTML = "Firmware: <b>" + (key || "unknown") + "</b>"
+        + (supported ? " &middot; <b style='color:#34d399;'>Supported</b>"
+                     : " &middot; <b style='color:#fbbf24;'>Not in measured table</b>");
+
+    var target = "jb.html" + location.search;
+    function go() { setState("Loading jailbreak...", "warn"); location.replace(target); }
+
+    function waitForTap(msg, action) {
+        setState(msg, "warn");
+        function fire() {
+            window.removeEventListener("click", fire);
+            window.removeEventListener("keydown", fire);
+            action();
+        }
+        window.addEventListener("click", fire);
+        window.addEventListener("keydown", fire);
+    }
+
+    // Off-target consoles are not launched automatically -- one tap still runs
+    // it, so a user-agent quirk on the real 13.52 console can never lock it out.
+    if (!supported) {
+        setState("UNSUPPORTED FIRMWARE", "bad");
+        waitForTap("UNSUPPORTED (" + (key || "unknown") + ") -- press \u2715 or tap to run anyway", go);
+        return;
+    }
+
+    var ac = window.applicationCache;
+    if (!ac || !document.documentElement.hasAttribute("manifest")) {
+        go();
+    } else if (!navigator.onLine) {
+        setCache("Offline mode -- loaded from cache", true);
+        go();
+    } else if (ac.status === ac.IDLE) {
+        setCache("Cache ready", true);
+        go();
+    } else if (ac.status === ac.UPDATEREADY) {
+        try { ac.swapCache(); } catch (e) {}
+        setCache("Update downloaded", true);
+        waitForTap("UPDATE READY -- press \u2715 or tap to reload & run",
+                   function () { location.reload(); });
+    } else {
+        setCache("Checking cache status...");
+        ac.addEventListener("downloading",
+            function () { setCache("Caching for offline use (first run)..."); }, false);
+        ac.addEventListener("progress", function (e) {
+            if (e && e.total)
+                setCache("Caching offline files: " + Math.round((e.loaded / e.total) * 100) + "%");
+        }, false);
+        ac.addEventListener("cached", function () {
+            setCache("Cached successfully for offline use", true);
+            waitForTap("CACHED (first run) -- press \u2715 or tap to run", go);
+        }, false);
+        ac.addEventListener("updateready", function () {
+            try { ac.swapCache(); } catch (e) {}
+            setCache("Update downloaded", true);
+            waitForTap("UPDATE READY -- press \u2715 or tap to reload & run",
+                       function () { location.reload(); });
+        }, false);
+        ac.addEventListener("noupdate", function () {
+            setCache("Cached -- offline ready", true);
+            go();
+        }, false);
+        ac.addEventListener("error", function () {
+            setCache("Cache check skipped (offline/error)");
+            waitForTap("CACHE FAILED -- press \u2715 or tap to run anyway", go);
+        }, false);
+        ac.addEventListener("obsolete", function () {
+            setCache("Cache obsolete");
+            waitForTap("CACHE OBSOLETE -- press \u2715 or tap to run", go);
+        }, false);
+    }
+})();
+</script>
+<script>
+(function() {
+  var saved = localStorage.getItem("raw_theme") || "";
+  function applyTheme(t) {
+    if (t) document.documentElement.setAttribute("data-theme", t);
+    else document.documentElement.removeAttribute("data-theme");
+    document.querySelectorAll(".theme-btn").forEach(function(b) {
+      if ((b.getAttribute("data-t") || "") === t) {
+        b.classList.add("active");
+      } else {
+        b.classList.remove("active");
+      }
+    });
+  }
+  applyTheme(saved);
+  document.querySelectorAll(".theme-btn").forEach(function(b) {
+    b.addEventListener("click", function(e) {
+      e.stopPropagation();
+      var t = b.getAttribute("data-t") || "";
+      localStorage.setItem("raw_theme", t);
+      applyTheme(t);
+    });
+  });
+})();
+</script>
+</body>
+</html>

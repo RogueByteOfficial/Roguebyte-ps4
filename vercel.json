@@ -1,0 +1,26 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "**",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/cache.appcache",
+      "headers": {
+        "Content-Type": "text/cache-manifest; charset=utf-8",
+        "Cache-Control": "no-cache, no-store, must-revalidate"
+      },
+      "dest": "/cache.appcache"
+    },
+    {
+      "src": "/(.*)",
+      "headers": {
+        "Access-Control-Allow-Origin": "*"
+      },
+      "dest": "/$1"
+    }
+  ]
+}

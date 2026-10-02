@@ -1,0 +1,7 @@
+node_modules/
+public/
+server.js
+metadata.json
+bun.lock
+.DS_Store
+*.log

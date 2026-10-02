@@ -1,0 +1,13 @@
+{
+  "name": "siido-ps4",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js",
+    "build": "echo 'Static build ready'"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}

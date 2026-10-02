@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="en" manifest="cache.appcache">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Sido RogueByte | Executing Exploit</title>
+    <style>
+      :root {
+        --bg-base: #0a080d;
+        --bg-grad: radial-gradient(circle at 50% 12%, #220d14 0%, #10080c 50%, #050406 100%);
+        --card-bg: rgba(20, 13, 17, 0.85);
+        --card-border: rgba(230, 57, 70, 0.3);
+        --card-glow: rgba(230, 57, 70, 0.3);
+        --primary-accent: #e63946;
+        --accent-glow: rgba(230, 57, 70, 0.55);
+        --accent-hover: #ff4d6d;
+        --title-grad: linear-gradient(135deg, #ffffff 15%, #ff758f 65%, #e63946 100%);
+        --text-primary: #f8fafc;
+        --text-secondary: #94a3b8;
+        --text-muted: #64748b;
+        --term-bg: #070608;
+      }
+      [data-theme="playstation"] {
+        --bg-base: #040814;
+        --bg-grad: radial-gradient(circle at 50% 12%, #0d1e38 0%, #070f1e 50%, #02050b 100%);
+        --card-bg: rgba(10, 20, 36, 0.85);
+        --card-border: rgba(0, 111, 205, 0.35);
+        --card-glow: rgba(0, 111, 205, 0.35);
+        --primary-accent: #0070d1;
+        --accent-glow: rgba(0, 112, 209, 0.6);
+        --accent-hover: #38bdf8;
+        --title-grad: linear-gradient(135deg, #ffffff 15%, #60a5fa 65%, #0070d1 100%);
+        --term-bg: #040811;
+      }
+      [data-theme="emerald"] {
+        --bg-base: #03120e;
+        --bg-grad: radial-gradient(circle at 50% 12%, #0b291d 0%, #061611 50%, #020806 100%);
+        --card-bg: rgba(9, 28, 21, 0.85);
+        --card-border: rgba(16, 185, 129, 0.35);
+        --card-glow: rgba(16, 185, 129, 0.35);
+        --primary-accent: #10b981;
+        --accent-glow: rgba(16, 185, 129, 0.6);
+        --accent-hover: #34d399;
+        --title-grad: linear-gradient(135deg, #ffffff 15%, #6ee7b7 65%, #10b981 100%);
+        --term-bg: #030d0a;
+      }
+      [data-theme="gold"] {
+        --bg-base: #120e06;
+        --bg-grad: radial-gradient(circle at 50% 12%, #2d220a 0%, #171106 50%, #080602 100%);
+        --card-bg: rgba(28, 22, 12, 0.88);
+        --card-border: rgba(234, 179, 8, 0.35);
+        --card-glow: rgba(234, 179, 8, 0.35);
+        --primary-accent: #eab308;
+        --accent-glow: rgba(234, 179, 8, 0.6);
+        --accent-hover: #fde047;
+        --title-grad: linear-gradient(135deg, #ffffff 15%, #fde047 65%, #eab308 100%);
+        --term-bg: #0c0903;
+      }
+      [data-theme="synthwave"] {
+        --bg-base: #11071c;
+        --bg-grad: radial-gradient(circle at 50% 12%, #2c103f 0%, #150821 50%, #07020d 100%);
+        --card-bg: rgba(28, 14, 43, 0.85);
+        --card-border: rgba(168, 85, 247, 0.35);
+        --card-glow: rgba(168, 85, 247, 0.35);
+        --primary-accent: #a855f7;
+        --accent-glow: rgba(168, 85, 247, 0.6);
+        --accent-hover: #c084fc;
+        --title-grad: linear-gradient(135deg, #ffffff 15%, #f472b6 65%, #a855f7 100%);
+        --term-bg: #09030f;
+      }
+      [data-theme="titanium"] {
+        --bg-base: #0f1115;
+        --bg-grad: radial-gradient(circle at 50% 12%, #22262e 0%, #13151a 50%, #090a0c 100%);
+        --card-bg: rgba(24, 27, 34, 0.88);
+        --card-border: rgba(148, 163, 184, 0.3);
+        --card-glow: rgba(148, 163, 184, 0.3);
+        --primary-accent: #cbd5e1;
+        --accent-glow: rgba(203, 213, 225, 0.45);
+        --accent-hover: #ffffff;
+        --title-grad: linear-gradient(135deg, #ffffff 20%, #e2e8f0 65%, #94a3b8 100%);
+        --term-bg: #090a0d;
+      }
+
+      * { box-sizing: border-box; }
+      html, body {
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        background-color: var(--bg-base);
+        background-image: var(--bg-grad);
+        color: var(--text-primary);
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        transition: background 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        overflow-x: hidden;
+        user-select: none;
+        -webkit-user-select: none;
+      }
+
+      /* Ambient Light */
+      .ambient-glow {
+        position: fixed;
+        top: -100px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 600px;
+        height: 380px;
+        background: radial-gradient(ellipse at center, var(--accent-glow) 0%, transparent 70%);
+        filter: blur(80px);
+        opacity: 0.35;
+        pointer-events: none;
+        z-index: 0;
+      }
+      .ambient-grid {
+        position: fixed;
+        inset: 0;
+        background-image: 
+          linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+        background-size: 40px 40px;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      /* Top Brand Bar */
+      #brand {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+        padding: 16px 24px;
+        background: rgba(10, 10, 16, 0.85);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.7);
+        position: relative;
+        z-index: 10;
+      }
+      #brand img {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        border: 2px solid var(--primary-accent);
+        box-shadow: 0 0 16px var(--accent-glow);
+        vertical-align: middle;
+      }
+      #brand b {
+        font-size: 20px;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+        background: var(--title-grad);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-transform: uppercase;
+        vertical-align: middle;
+      }
+
+      /* High-Tech Orbital Reactor Spinner */
+      #spin {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        width: 84px;
+        height: 84px;
+        margin: -42px 0 0 -42px;
+        border-radius: 50%;
+        border: 3px solid rgba(255, 255, 255, 0.08);
+        border-top-color: var(--primary-accent);
+        border-right-color: var(--primary-accent);
+        box-shadow: 0 0 35px var(--accent-glow);
+        animation: spinOuter 1s cubic-bezier(0.5, 0.1, 0.4, 0.9) infinite;
+        z-index: 20;
+      }
+      #spin::before {
+        content: "";
+        position: absolute;
+        inset: 8px;
+        border-radius: 50%;
+        border: 3px solid rgba(255, 255, 255, 0.04);
+        border-bottom-color: var(--accent-hover);
+        border-left-color: var(--accent-hover);
+        animation: spinInner 0.7s linear infinite reverse;
+      }
+      #spin::after {
+        content: "";
+        position: absolute;
+        inset: 22px;
+        border-radius: 50%;
+        background: var(--primary-accent);
+        box-shadow: 0 0 20px var(--primary-accent);
+        opacity: 0.85;
+        animation: pulseCore 1.4s ease-in-out infinite alternate;
+      }
+      @keyframes spinOuter {
+        to { transform: rotate(360deg); }
+      }
+      @keyframes spinInner {
+        to { transform: rotate(360deg); }
+      }
+      @keyframes pulseCore {
+        0% { transform: scale(0.7); opacity: 0.5; }
+        100% { transform: scale(1.1); opacity: 1; filter: drop-shadow(0 0 10px var(--accent-glow)); }
+      }
+
+      /* Status Message HUD Popup */
+      #msg {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        font-size: 22px;
+        font-weight: 800;
+        letter-spacing: 0.06em;
+        padding: 30px 48px;
+        background: var(--card-bg);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        border: 1px solid var(--card-border);
+        border-radius: 24px;
+        box-shadow: 0 24px 70px rgba(0, 0, 0, 0.85), 0 0 35px var(--card-glow);
+        display: none;
+        z-index: 30;
+        animation: hudEnter 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+      @keyframes hudEnter {
+        from { opacity: 0; transform: translate(-50%, -46%) scale(0.94); }
+        to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      }
+
+      #wrap { padding: 0; }
+      #state, #out { display: none; }
+
+      body.done #spin, body.fail #spin {
+        display: none;
+      }
+
+      body.fail #msg {
+        display: block;
+        color: #f87171;
+        border-color: rgba(248, 113, 113, 0.45);
+        box-shadow: 0 24px 70px rgba(0, 0, 0, 0.85), 0 0 40px rgba(248, 113, 113, 0.35);
+      }
+      body.done #msg {
+        display: block;
+        color: #34d399;
+        font-weight: 800;
+        border-color: rgba(52, 211, 153, 0.45);
+        box-shadow: 0 24px 70px rgba(0, 0, 0, 0.85), 0 0 40px rgba(52, 211, 153, 0.35);
+      }
+
+      /* Notification Toast banner */
+      #toast {
+        position: fixed;
+        top: 24px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--card-bg) !important;
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid var(--primary-accent) !important;
+        color: #ffffff !important;
+        padding: 14px 32px !important;
+        border-radius: 16px !important;
+        font-weight: 800 !important;
+        font-size: 16px !important;
+        box-shadow: 0 16px 45px rgba(0,0,0,0.85), 0 0 25px var(--accent-glow) !important;
+        z-index: 99999 !important;
+        letter-spacing: 0.05em;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        animation: toastDrop 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      @keyframes toastDrop {
+        from { opacity: 0; transform: translate(-50%, -20px); }
+        to { opacity: 1; transform: translate(-50%, 0); }
+      }
+
+      /* ?log=1 -- Cyberpunk Terminal Log Window */
+      body.log #spin, body.log #msg {
+        display: none;
+      }
+      body.log #wrap {
+        padding: 24px 28px;
+        max-width: 960px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 10;
+      }
+      body.log #state {
+        display: block;
+        font-size: 22px;
+        font-weight: 800;
+        margin: 0 0 14px;
+        color: var(--primary-accent);
+        text-shadow: 0 0 14px var(--accent-glow);
+        letter-spacing: 0.04em;
+      }
+      body.log #out {
+        display: block;
+        white-space: pre-wrap;
+        font: 13.5px/1.6 "Fira Code", Consolas, "Courier New", monospace;
+        background: var(--term-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 16px;
+        padding: 20px 22px;
+        height: calc(100vh - 160px);
+        overflow-y: auto;
+        box-shadow: inset 0 2px 14px rgba(0, 0, 0, 0.85), 0 10px 40px rgba(0, 0, 0, 0.6);
+        user-select: text;
+        -webkit-user-select: text;
+      }
+      /* Custom high-tech scrollbar */
+      body.log #out::-webkit-scrollbar {
+        width: 8px;
+      }
+      body.log #out::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 4px;
+      }
+      body.log #out::-webkit-scrollbar-thumb {
+        background: var(--card-border);
+        border-radius: 4px;
+      }
+      body.log #out::-webkit-scrollbar-thumb:hover {
+        background: var(--primary-accent);
+      }
+
+      .ok { color: #34d399; font-weight: 600; text-shadow: 0 0 8px rgba(52, 211, 153, 0.4); }
+      .bad { color: #f87171; font-weight: 600; text-shadow: 0 0 8px rgba(248, 113, 113, 0.4); }
+      .warn { color: #fbbf24; font-weight: 600; text-shadow: 0 0 8px rgba(251, 191, 36, 0.4); }
+      .safe { color: #34d399; }
+      .danger { color: #f87171; }
+      code {
+        color: #7dd3fc;
+        background: rgba(125, 211, 252, 0.1);
+        padding: 2px 6px;
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="ambient-glow"></div>
+    <div class="ambient-grid"></div>
+
+    <div id="brand">
+      <img src="logo_RogueByte.png" alt="RogueByte" width="36" height="36" />
+      <b>Sido RogueByte</b>
+    </div>
+
+    <div id="spin"></div>
+    <div id="msg">Restart your console</div>
+    <div id="wrap">
+      <div id="state"></div>
+      <div id="out"></div>
+    </div>
+
+    <script type="module">
+      import "./jb.js?v=19";
+    </script>
+    <script>
+      (function() {
+        var t = localStorage.getItem("raw_theme");
+        if (t) document.documentElement.setAttribute("data-theme", t);
+      })();
+    </script>
+  </body>
+</html>
